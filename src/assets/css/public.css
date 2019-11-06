@@ -1,0 +1,152 @@
+/*页面基本样式*/
+@charset "utf-8";
+html,body{margin:0;padding:0;font-family:Microsoft YaHei,"微软雅黑";color:#333;-webkit-text-size-adjust:none;}
+h1,h2,h3,h4,h5,h6{margin:0;padding:0;font-weight:normal;}
+ul,ol,li,dl,dt,dd{margin:0;padding:0;list-style:none;}
+img{border:0;padding:0;margin:0; display:block; }
+td{padding:0;margin:0;border:0;}
+p{ padding:0;margin:0;border:0;}
+form,pre,fleldset,input,textarea{margin:0;padding:0;}
+a{text-decoration:none;color:#666;}
+a:link,a:visited,a:acstive{color:#666;text-decoration:none;}
+a:hover{color:#666;text-decoration:none;}
+input{ border-radius:0;border:0;outline:none;}
+input{-webkit-appearance:none; /*去除苹果手机input默认样式*/} 
+.dis{ display:none;}
+.dn{ display:none;}
+.db{ display:block;}
+.dib{ display:inline-block;}
+.marin-top20{ margin-top:20px;}
+
+
+/*定位*/
+.f-r{ float:right;}
+.f-l{ float:left;}
+.p-t-l-trans{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%)}/*绝对居中*/
+
+.m-t-1{ margin-top:1%}
+.m-t-2{ margin-top:2%}
+.m-t-3{ margin-top:3%}
+.m-t-4{ margin-top:4%}
+.m-t-5{ margin-top:5%}
+
+.m-r-1{ margin-right:1%}
+.m-r-2{ margin-right:2%}
+.m-r-3{ margin-right:3%}
+.m-r-4{ margin-right:4%}
+.m-r-5{ margin-right:5%}
+
+.m-b-1{ margin-bottom:1%}
+.m-b-2{ margin-bottom:2%}
+.m-b-3{ margin-bottom:3%}
+.m-b-4{ margin-bottom:4%}
+.m-b-5{ margin-bottom:5%}
+
+.m-l-1{ margin-left:1%}
+.m-l-2{ margin-left:2%}
+.m-l-3{ margin-left:3%}
+.m-l-4{ margin-left:4%}
+.m-l-5{ margin-left:5%}
+
+
+
+
+/*字号*/
+.px12{ font-size:12px;}
+.px15{ font-size:15px;}
+.px16{ font-size:16px;}
+.px17{ font-size:17px;}
+.px18{ font-size:18px;}
+.px19{ font-size:19px;}
+.px20{ font-size:20px;}
+.px21{ font-size:21px;}
+.px22{ font-size:22px;}
+.px23{ font-size:23px;}
+.px24{ font-size:24px;}
+.px25{ font-size:25px;}
+.px26{ font-size:26px;}
+.px27{ font-size:27px;}
+.px28{ font-size:28px;}
+.px29{ font-size:29px;}
+.px30{ font-size:30px;}
+.px31{ font-size:31px;}
+.px32{ font-size:32px;}
+.px33{ font-size:33px;}
+.px34{ font-size:34px;}
+.px35{ font-size:35px;}
+.px36{ font-size:36px;}
+.px37{ font-size:37px;}
+.px38{ font-size:38px;}
+.px39{ font-size:39px;}
+.px40{ font-size:40px;}
+.px41{ font-size:41px;}
+.px42{ font-size:42px;}
+.px43{ font-size:43px;}
+.px44{ font-size:44px;}
+.px45{ font-size:45px;}
+.px46{ font-size:46px;}
+.px47{ font-size:47px;}
+.px48{ font-size:48px;}
+.px49{ font-size:49px;}
+.px50{ font-size:50px;}
+
+
+/*宽度*/
+
+.wid-12{ width:1200px; }
+
+/*颜色*/
+.col-fff{ color:#FFF; }
+.col-000{ color:#000; }
+.col-101010{ color:#101010; }
+.col-424242{ color:#424242; }
+.col-8e8e8e{ color:#424242; }
+.col-f0f0f0{ color:#f0f0f0; }
+.col-42c528{ color:#42c528; }
+.col-53b438{ color:#53b438; }
+.col-0faaf2{ color:#0faaf2; }
+.col-e92222{ color:#e92222; }
+.col-c8c8c8{ color:#c8c8c8; }
+
+
+
+/*背景颜色*/
+.bg-a97d32{ background-color:#a97d32;}
+.bg-fff{ background-color:#FFF}
+.bg-f0{ background-color:#f0f0f0;}
+.bg-000{ background-color:#000; }
+
+/* 背景图*/
+.bg-01{ background-image:url(file:///D|/%E6%88%91%E7%9A%84%E6%96%87%E6%A1%A3/Tencent%20Files/1006387072/images/right-list.png); background-position:98% center; background-repeat:no-repeat; background-size:20px;}
+
+/*文本*/
+.text-c{ text-align:center; }
+.text-l{ text-align:left; }
+.text-r{ text-align:right; }
+
+.pd-lr20{ padding-left:20px; padding-right:20px; }
+
+
+
+/*其他*/
+.o-h{ overflow:hidden; }
+.c-p{ cursor:pointer;}
+.t-d-t{ text-decoration:line-through}
+
+/*边线*/
+
+
+/*flex弹性布局*/
+.d-f-a{display: -webkit-flex;-webkit-justify-content: space-around; display: flex;justify-content: space-around; }
+.d-f-b{display: -webkit-flex;-webkit-justify-content: space-around; display: flex;justify-content:space-between; }
+
+
+.par{ display: block; position: absolute; right:0; top: 50%; transform:  translate(0,-50%)}
+.pal{ display: block; position: absolute; left:0; top: 50%; transform:  translate(0,-50%)}
+.pac{ display: block; position: absolute; left:50%; top: 50%; transform:  translate(-50%,-50%)}
+.pat{ display: block; position: absolute; left:0; top: 0%; transform:  translate(-50%,0)}
+
+.par-3{ display: block; position: absolute; right:3%; top: 50%; transform:  translate(0,-50%)}
+.pal-3{ display: block; position: absolute; left:3%; top: 50%; transform:  translate(0,-50%)}
+.pat-3{ display: block; position: absolute; left:3%; top: 0%; transform:  translate(-50%,0)}
+
