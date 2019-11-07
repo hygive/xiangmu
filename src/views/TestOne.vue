@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <ul class="header">
+      <ul class="header">
       <li>
         <div class="one">
-          <img src="../assets/image/test1.png" alt />
+          <img src="../assets/image/test1.png" alt class="oneimg"/>
           <span class="active">基本资料</span>
         </div>
       </li>
@@ -14,7 +14,7 @@
       </li>
       <li>
         <div class="one">
-          <img src="../assets/image/test2.png" alt />
+          <img src="../assets/image/test2.png" alt  class="twoimg"/>
           <span>填写问卷</span>
         </div>
       </li>
@@ -25,7 +25,7 @@
       </li>
       <li>
         <div class="one">
-          <img src="../assets/image/test3.png" alt />
+          <img src="../assets/image/test3.png" alt class="threeimg"/>
           <span>拍照视频</span>
         </div>
       </li>
@@ -39,14 +39,15 @@
       <div class="time">
         <div class="time_l">
           <span class="write">请选择出生日期</span>
-          <div class="year">
-            <span @click="openPicker">{{time}}</span>
+          <div class="year"  @click="openPicker">
+            <span>{{time}}</span>
             <img src="../assets/image/xia.png" alt srcset />
           </div>
           <div class="tankuang">
             <mt-datetime-picker
               type="date"
               ref="picker"
+              v-model="dateVal"
               :startDate="starttime"
               year-format="{value} 年"
               month-format="{value} 月"
@@ -55,22 +56,42 @@
             ></mt-datetime-picker>
           </div>
         </div>
-        <div class="time_r"></div>
+        <div class="time_r">
+          <span class="write">性别</span>
+          <van-radio-group v-model="radio">
+            <van-radio name="1">男</van-radio>
+            <van-radio name="2">女</van-radio>
+          </van-radio-group>
+        </div>
       </div>
+      <div class="tel">
+        <span class="write">请输入手机号码</span>
+        <input type="number" />
+      </div>
+      <div class="city">
+        <span class="write">请选择地址</span>
+      <div></div>
+      </div>
+      <div class="moreIfor">
+        <span class="write">详细地址</span>
+        <input type="text" />
+      </div>
+     <button class="next" @click="nextTwo">下一步</button>
     </div>
+  
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: "testone",
   components: {},
   data() {
     return {
       time: "1995 / 12",
-      starttime:new Date("1900-01")
+      starttime: new Date("1900-01"),
+      radio: "1",
+       dateVal:new Date(), // 默认是当前日期
     };
   },
   methods: {
@@ -80,7 +101,7 @@ export default {
       m = m < 10 ? "0" + m : m;
       let d = date.getDate();
       d = d < 10 ? "0" + d : d;
-      return y + " / " + m ;
+      return y + " / " + m;
     },
 
     openPicker() {
@@ -90,112 +111,175 @@ export default {
       console.log(this.formatDate(data));
       var newdata = this.formatDate(data);
       this.time = newdata;
+    },
+    nextTwo(){
+      this.$router.push("/testtwo")
     }
   }
 };
 </script>
 
 <style scoped>
-.tankuang /deep/.picker-slot +.picker-slot +.picker-slot{ display: none}
+.tankuang /deep/.picker-slot + .picker-slot + .picker-slot {
+  display: none;
+}
 /* 进度条头部 */
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 60px 100px;
+  padding: 0.6rem 1rem;
   text-align: center;
 }
 .one {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 24px;
+  font-size: 0.24rem;
   color: #d6d6d6;
 }
 .active {
   color: #333;
 }
-.one:nth-child(1) img {
-  width: 31px;
-  height: 30px;
+.oneimg{
+  width: 0.31rem;
+  height: 0.3rem;
+
 }
-.one:nth-child(2) img {
-  width: 27px;
-  height: 32px;
+.twoimg {
+  width: 0.27rem;
+  height: 0.32rem;
 }
-.one:nth-child(3) img {
-  width: 36px;
-  height: 26px;
+.threeimg {
+  width: 0.36rem;
+  height: 0.26rem;
+  margin-bottom: 0.06rem;
 }
 .one span {
-  margin-top: 24px;
+  margin-top: 0.24rem;
 }
 .mark {
-  width: 9px;
-  height: 9px;
+  width: 0.09rem;
+  height: 0.09rem;
   border-radius: 50%;
   background-color: #b2b2b2;
   opacity: 0.5;
   float: left;
-  margin-left: 18px;
-  margin-top: 18px;
+  margin-left: 0.18rem;
+  margin-top: 0.18rem;
 }
 /* 内容部分 */
 .container {
-  padding: 0 30px;
+  padding: 0 0.3rem;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 .container h2 {
   color: #333;
-  font-size: 48px;
-  margin-bottom: 40px;
+  font-size: 0.48rem;
+  margin-bottom: 0.4rem;
 }
 .name {
   display: flex;
   flex-direction: column;
-  width: 480px;
+  width: 5.4rem;
   border-bottom: 1px solid #d6d6d6;
 }
 .name span {
   color: #d6d6d6;
-  font-size: 22px;
+  font-size: 0.22rem;
 }
 .name input {
-  font-size: 30px;
-  padding: 20px 0;
+  font-size: 0.3rem;
+  padding: 0.2rem 0;
   color: #333;
 }
 .time {
   overflow: hidden;
-  margin-top: 40px;
+  margin-top: 0.4rem;
 }
 .time_l {
   float: left;
+  width: 2.4rem;
+  margin-right: 1rem;
 }
 .write {
   color: #d6d6d6;
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 0.22rem;
+  margin-bottom: 0.1rem;
   display: block;
 }
 .year {
-  width: 260px;
+  /* width: 260px; */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 0.2rem 0;
   border-bottom: 1px solid #d6d6d6;
 }
 .year span {
-  font-size: 30px;
+  font-size: 0.3rem;
   color: #333;
   display: block;
-  padding-right: 30px;
+  padding-right: 0.3rem;
 }
 .year img {
-  width: 23px;
-  height: 7px;
+  width: 0.23rem;
+  height: 0.07rem;
   vertical-align: bottom;
+}
+.time_r {
+  float: left;
+}
+.time_r /deep/ .van-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.4rem;
+}
+.time_r /deep/ .van-radio__label {
+  font-size: 0.26rem;
+}
+.time_r /deep/ .van-radio {
+  margin-right: 0.6rem;
+}
+.time_r /deep/ .van-radio__icon--checked .van-icon {
+  background: #ac945b;
+  border-color: #ac945b;
+}
+.tel {
+  margin-top: 0.4rem;
+  width: 5.4rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+.tel input {
+  font-size: 0.3rem;
+  display: block;
+  padding: 0.2rem 0;
+  width: 100%;
+}
+
+.moreIfor {
+  margin-top: 0.4rem;
+  border-bottom: 1px solid #d6d6d6;
+}
+.moreIfor input {
+  width: 100%;
+  display: block;
+  padding: 0.2rem 0;
+  font-size: 0.3rem;
+}
+.next {
+  width: 5rem;
+  height: 0.9rem;
+  background: #aa935a;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 0.3rem;
+  border: 0;
+  outline: none;
+  margin:0.6rem auto 0.6rem;
+  
 }
 </style>

@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import TestOne from '../views/TestOne.vue'
-
+import TestTwo from '../views/TestTwo.vue'
+import TestThree from '../views/TestThree.vue'
+import TestSucess from '../views/TestSucess.vue'   
+import Appointment from '../views/Appointment.vue' 
 Vue.use(VueRouter)
 
 const routes = [
@@ -9,6 +12,26 @@ const routes = [
     path: '/',
     name: 'testone',
     component: TestOne
+  },
+  {
+    path: '/testtwo',
+    name: 'testtwo',
+    component: TestTwo
+  },
+  {
+    path: '/testtwo/testthree',
+    name: 'testthree',
+    component: TestThree
+  },
+  {
+    path: '/testtwo/testthree/testsucess',
+    name: 'testsucess',
+    component: TestSucess
+  },
+  {
+    path: '/testtwo/testthree/testsucess/appointment',
+    name: 'appointment',
+    component: Appointment
   },
   // {
   //   path: '/about',
