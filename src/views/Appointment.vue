@@ -7,11 +7,20 @@
           <div>{{item.day}}</div>
         </li>
       </ul>
-      <div class="right">
+      <!-- <div class="right" @click="showCalendar"> -->
+        <div class="right" @click="showCalendar('isVisible')">
         <p>全部<pre>日历</pre></p>
         <img src="../assets/image/sanjiao.png" alt srcset />
       </div>
+
     </div>
+  <nut-calendar 
+      :is-visible="isVisible"
+      :default-value="date"
+      @close="switchPicker('isVisible')"
+      @choose="setChooseValue"
+  >
+ </nut-calendar>
   </div>
 </template>
 
@@ -22,15 +31,11 @@ export default {
   components: {},
   data() {
     return {
-        number:1,
-      listData: [
-        { data: this.getWeek(-1), day:this.getDay(-1) },
-        { data: this.getWeek(0), day: this.getDay(0) },
-        { data: this.getWeek(1), day: this.getDay(1) },
-        { data: this.getWeek(2), day: this.getDay(2) },
-        { data: this.getWeek(3), day:this.getDay(3) },
-        { data: this.getWeek(4), day:this.getDay(4)}
-      ]
+      isVisible: false,//京东日历
+      date: null,
+      dateWeek: null,
+      number:1,
+      listData: []
     };
   },
   methods:{
@@ -38,19 +43,22 @@ export default {
           this.number= index; 
         
       },
-    getWeek(i){
+    getWeek(i,day){
         var aa
-        if(i>new Date().getDay()){
-            aa = "星期" + "日一二三四五六".charAt(new Date().getDay()- i + 7);
+        // console.log(new Date().getDay());
+        if(i>parseInt(day)){
+            aa = "星期" + "日一二三四五六".charAt(parseInt(day)- i + 7);
         } else {
-            aa = "星期" + "日一二三四五六".charAt(new Date().getDay()-i);
+            aa = "星期" + "日一二三四五六".charAt(parseInt(day)-i);
         }
+       
         return aa
     },
-   getDay(day){
-            var today = new Date();                  
+   getDay(day,nowday){
+           
+            var today = new Date(nowday);                  
             var targetday_milliseconds=today.getTime() + 1000*60*60*24*day;                   
-            today.setTime(targetday_milliseconds); //注意，这行是关键代码                
+            today.setTime(targetday_milliseconds); //注意，这行是关键代码  
             var tYear = today.getFullYear();         
             var tMonth = today.getMonth();         
             var tDate = today.getDate();         
@@ -59,17 +67,65 @@ export default {
             //console.log(tYear+"-"+tMonth+"-"+tDate)
             //bbb7.push(tYear+"-"+tMonth+"-"+tDate);
             return tDate;  
-   },
- doHandleMonth(month){
-   var m = month;        
-   if(month.toString().length == 1){            
-       m =  month;         
-   } 
-   return m;  
-  }   
+         },
+        doHandleMonth(month){
+          var m = month;        
+          if(month.toString().length == 1){            
+              m =  month;         
+          } 
+          return m;  
+          },
+     //京东日历弹框
+       switchPicker(param) {
+            this[`${param}`] = !this[`${param}`];
+        },
+        setChooseValue(param) {
+          var weekday = [];
+            weekday["星期日"] = 0;
+            weekday["星期一"] = 1;
+            weekday["星期二"] = 2;
+            weekday["星期三"] = 3;
+            weekday["星期四"] = 4;
+            weekday["星期五"] = 5;
+            weekday["星期六"] = 6;
+            var data = param[0]+'/'+param[1]+'/'+param[2];
+            var wday = weekday[param[4]];
+           this.listData = [
+              { data: this.getWeek(-1,wday), day:this.getDay(-1,data) },
+              { data: this.getWeek(0,wday), day: this.getDay(0,data) },
+              { data: this.getWeek(1,wday), day: this.getDay(1,data) },
+              { data: this.getWeek(2,wday), day: this.getDay(2,data) },
+              { data: this.getWeek(3,wday), day:this.getDay(3,data) },
+              { data: this.getWeek(4,wday), day:this.getDay(4,data)}
+            ];
+
+     
+          console.log(param)
+            // this.date = param[2];
+            
+            // this.dateWeek = param[4];
+          
+            //    this.listData.data[1]=this.dateWeek
+            
+           
+        },
+      //点击日历显示日历
+      showCalendar(param){
+          this[`${param}`] = !this[`${param}`];
+      }
   },
   mounted(){
-  
+    var today = new Date();
+     var data = today.getFullYear()+'/'+(parseInt(today.getMonth())+1)+'/'+today.getDate();
+            console.log(data);
+    this.listData = [
+        { data: this.getWeek(-1,new Date().getDay()), day:this.getDay(-1,data) },
+        { data: this.getWeek(0,new Date().getDay()), day: this.getDay(0,data) },
+        { data: this.getWeek(1,new Date().getDay()), day: this.getDay(1,data) },
+        { data: this.getWeek(2,new Date().getDay()), day: this.getDay(2,data) },
+        { data: this.getWeek(3,new Date().getDay()), day:this.getDay(3,data) },
+        { data: this.getWeek(4,new Date().getDay()), day:this.getDay(4,data)}
+      ];
   }
 };
 </script>
@@ -119,4 +175,19 @@ export default {
     border-radius: 5px;
     color: #fff !important
 }
+.home /deep/.nut-calendar-control .nut-calendar-confirm-btn{
+  color: #b2985b !important;
+}
+.home /deep/.nut-calendar-control .nut-calendar-cancel-btn{
+   color: #b2985b !important;
+}
+.home  /deep/.nut-calendar-month-day-active{
+     background: #b2985b !important;
+   }
+.home  /deep/   .nut-calendar-control .nut-calendar-week span:first-child{
+     color: #b2985b !important;
+   }
+.home  /deep/.nut-calendar-control .nut-calendar-week span:last-child{
+ color: #b2985b !important;
+  }
 </style>

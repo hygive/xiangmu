@@ -7,7 +7,10 @@ import 'mint-ui/lib/style.css'
 import 'vant/lib/index.css';
 import Vant from 'vant';
 Vue.config.productionTip = false
+import NutUI from '@nutui/nutui';
+import '@nutui/nutui/dist/nutui.css';
 
+NutUI.install(Vue);
 
 import { DatetimePicker } from 'mint-ui';
 Vue.component(DatetimePicker.name, DatetimePicker);
