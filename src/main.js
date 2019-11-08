@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 // import 'lib-flexible'
 import 'mint-ui/lib/style.css'
+import 'vant/lib/index.css';
+import Vant from 'vant';
 Vue.config.productionTip = false
 
 
@@ -14,10 +16,10 @@ import { RadioGroup, Radio } from 'vant';
 import { Checkbox, CheckboxGroup } from 'vant';
 
 Vue.use(Checkbox).use(CheckboxGroup);
-import 'vant/lib/index.css';
+
 Vue.use(RadioGroup);
 Vue.use(Radio)
-
+Vue.use(Vant);
 new Vue({
   router,
   store,

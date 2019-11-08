@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-      <ul class="header">
+    <ul class="header">
       <li>
         <div class="one">
-          <img src="../assets/image/test1.png" alt class="oneimg"/>
+          <img src="../assets/image/test1.png" alt class="oneimg" />
           <span class="active">基本资料</span>
         </div>
       </li>
@@ -14,7 +14,7 @@
       </li>
       <li>
         <div class="one">
-          <img src="../assets/image/test2.png" alt  class="twoimg"/>
+          <img src="../assets/image/test2.png" alt class="twoimg" />
           <span>填写问卷</span>
         </div>
       </li>
@@ -25,7 +25,7 @@
       </li>
       <li>
         <div class="one">
-          <img src="../assets/image/test3.png" alt class="threeimg"/>
+          <img src="../assets/image/test3.png" alt class="threeimg" />
           <span>拍照视频</span>
         </div>
       </li>
@@ -39,7 +39,7 @@
       <div class="time">
         <div class="time_l">
           <span class="write">请选择出生日期</span>
-          <div class="year"  @click="openPicker">
+          <div class="year" @click="openPicker">
             <span>{{time}}</span>
             <img src="../assets/image/xia.png" alt srcset />
           </div>
@@ -70,19 +70,35 @@
       </div>
       <div class="city">
         <span class="write">请选择地址</span>
-      <div></div>
+        <van-cell is-link @click="showPopup">
+          <div class="specific">
+            <span>{{SelectProvinceName}}</span>
+            <span>{{SelectCityName}}</span>
+            <span>{{SelectCountyName}}</span>
+            <img src="../assets/image/xia.png" alt srcset />
+          </div>
+        </van-cell>
+        <van-popup v-model="show" position="bottom">
+          <van-area
+            :area-list="areaList"
+            :columns-num="colNum"
+            @confirm="confirmFn"
+           
+            @cancel="cancelFn"
+          />
+        </van-popup>
       </div>
       <div class="moreIfor">
         <span class="write">详细地址</span>
         <input type="text" />
       </div>
-     <button class="next" @click="nextTwo">下一步</button>
+      <button class="next" @click="nextTwo">下一步</button>
     </div>
-  
   </div>
 </template>
 
 <script>
+import areaFile from "../assets/js/area.js";
 export default {
   name: "testone",
   components: {},
@@ -91,7 +107,14 @@ export default {
       time: "1995 / 12",
       starttime: new Date("1900-01"),
       radio: "1",
-       dateVal:new Date(), // 默认是当前日期
+      dateVal: new Date(), // 默认是当前日期
+      address:" /  / ",
+      SelectProvinceName:"省",
+      SelectCityName:"市",
+      SelectCountyName:"区",
+      show: false,
+      areaList:areaFile,
+      colNum: "3" //省市区显示列数，3-省市区，2-省市，1-省
     };
   },
   methods: {
@@ -112,8 +135,25 @@ export default {
       var newdata = this.formatDate(data);
       this.time = newdata;
     },
-    nextTwo(){
-      this.$router.push("/testtwo")
+    nextTwo() {
+      this.$router.push("/testtwo");
+    },
+    // 弹框按钮
+    showPopup() {
+      this.show = true;
+    },
+    //省市区完成按钮
+    confirmFn(val){
+        this.show = false;
+        this.SelectProvinceName = val[0].name;   // 省
+        this.SelectCityName = val[1].name;   // 市
+        this.SelectCountyName = val[2].name;  //区
+    },
+
+    //省市区取消按钮
+    cancelFn() {
+      this.show = false;
+      console.log("点击了取消按钮");
     }
   }
 };
@@ -141,10 +181,9 @@ export default {
 .active {
   color: #333;
 }
-.oneimg{
+.oneimg {
   width: 0.31rem;
   height: 0.3rem;
-
 }
 .twoimg {
   width: 0.27rem;
@@ -279,7 +318,33 @@ export default {
   font-size: 0.3rem;
   border: 0;
   outline: none;
-  margin:0.6rem auto 0.6rem;
-  
+  margin: 0.6rem auto 0.6rem;
+}
+.city {
+  margin-top: 0.4rem;
+}
+.specific {
+  display: flex;
+  flex-direction: row;
+  width: 5.4rem;
+  font-size: 0.3rem;
+  color: #333;
+  border-bottom: 1px solid #d6d6d6;
+  padding: 0.16rem 0;
+  justify-content: space-between;
+  align-items: center;
+}
+.specific img {
+  width: 0.23rem;
+  height: 0.07rem;
+  vertical-align: bottom;
+}
+.city /deep/ .van-cell {
+  padding: 0 !important;
+  outline: #fff !important;
+  background: #fff;
+}
+.city /deep/ .van-cell i {
+  display: none !important;
 }
 </style>
