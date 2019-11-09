@@ -287,6 +287,13 @@ export default {
   background: #ac945b;
   border-color: #ac945b;
 }
+.city   /deep/ .van-picker__cancel{
+  color: #b2985b !important;
+   }
+ .city   /deep/ .van-picker__confirm{
+  color: #b2985b !important;
+   }
+
 .tel {
   margin-top: 0.4rem;
   width: 5.4rem;
