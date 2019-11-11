@@ -194,11 +194,17 @@ export default {
 }
 .foot ul li{
     font-size: 0.24rem;
+  
 }
 .foot ul li img{
     width: 0.4rem;
     height: 0.4rem;
     display: block;
+       margin-left: 0.04rem;
+margin-bottom: 0.04rem;
+}
+.foot ul li:nth-child(3) img{
+  margin-left: 0.08rem;
 }
 .foot div{
     font-size: 0.3rem;
