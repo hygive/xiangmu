@@ -17,9 +17,11 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 
 import { RadioGroup, Radio } from 'vant';
 import { Checkbox, CheckboxGroup } from 'vant';
-
+import { Swipe, SwipeItem } from 'vant'
+import { Lazyload } from 'vant';
+Vue.use(Lazyload);
 Vue.use(Checkbox).use(CheckboxGroup);
-
+Vue.use(Swipe).use(SwipeItem);
 Vue.use(RadioGroup);
 Vue.use(Radio)
 Vue.use(Vant);

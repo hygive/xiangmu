@@ -5,6 +5,8 @@ import TestTwo from '../views/TestTwo.vue'
 import TestThree from '../views/TestThree.vue'
 import TestSucess from '../views/TestSucess.vue'   
 import Appointment from '../views/Appointment.vue' 
+import Application from '../views/Application.vue' 
+import CommodityDetails from "../views/CommodityDetails.vue"
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +35,16 @@ const routes = [
     name: 'appointment',
     component: Appointment
   },
+  {
+    path:'/application',
+    name: 'application',
+    component: Application
+  },
+  {
+    path:'/application/commoditydetails',
+    name: 'commoditydetails',
+    component: CommodityDetails
+  }
   // {
   //   path: '/about',
   //   name: 'about',

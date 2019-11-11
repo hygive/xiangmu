@@ -43,7 +43,7 @@
           >{{item.name}}</button>
         </div>
       </div>
-      <div class="first">
+      <!-- <div class="first">
         <div class="title">1.您多久敷一次面膜？</div>
         <div class="check">
           <button
@@ -53,7 +53,8 @@
             :key="index"
           >{{item}}</button>
         </div>
-      </div>
+      </div> -->
+   
       <div class="first">
         <div class="title">1.您想我们可以做哪些改变？</div>
         <div class="check1">
@@ -79,7 +80,12 @@ export default {
         { active: false, name: "色斑" }
       ],
       active0: -1,
-      list1: ["每天都敷", "一周三次以上", "一周两次", "不敷"]
+      list1: ["每天都敷", "一周三次以上", "一周两次", "不敷"],
+      listData:[
+       {title:"您多久敷一次面膜？",Item:["每天都敷", "一周三次以上", "一周两次", "不敷"]},
+       {title:"您多久敷一次面膜2？",Item:["每天都敷", "一周三次以上", "一周两次", "不敷"]},
+       {title:"您多久敷一次面膜3？",Item:["每天都敷", "一周三次以上", "一周两次", "不敷"]}
+        ]
     };
   },
   methods: {
