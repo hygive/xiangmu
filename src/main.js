@@ -6,10 +6,12 @@ import store from './store'
 import 'mint-ui/lib/style.css'
 import 'vant/lib/index.css';
 import Vant from 'vant';
+import axios from 'axios'
 Vue.config.productionTip = false
 import NutUI from '@nutui/nutui';
 import '@nutui/nutui/dist/nutui.css';
 
+Vue.prototype.$axios=axios;
 NutUI.install(Vue);
 
 import { DatetimePicker } from 'mint-ui';
@@ -25,6 +27,7 @@ Vue.use(Swipe).use(SwipeItem);
 Vue.use(RadioGroup);
 Vue.use(Radio)
 Vue.use(Vant);
+
 new Vue({
   router,
   store,
