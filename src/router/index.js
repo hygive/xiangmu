@@ -20,6 +20,11 @@ const routes = [
     name: 'testtwo',
     component: TestTwo
   },
+  // {
+  //   path: '/testtwo/:list',
+  //   name: 'testtwo',   
+  //   component: TestTwo
+  // },
   {
     path: '/testtwo/testthree',
     name: 'testthree',

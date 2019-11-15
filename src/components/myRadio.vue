@@ -34,8 +34,8 @@ export default {
 
   methods:{
     updataInp (ev) {
-      console.log(ev.target.value)
-      this.$emit('change', ev.target.value)
+    //  console.log(ev.target.value)
+      this.$emit('change', ev.target)
     }
   }
 };

@@ -34,13 +34,13 @@
       <h2>基本资料</h2>
       <div class="name">
         <span>姓名</span>
-        <input type="text" />
+        <input type="text" v-model="infor" ref="username" />
       </div>
       <div class="time">
         <div class="time_l">
           <span class="write">请选择出生日期</span>
           <div class="year" @click="openPicker">
-            <span>{{time}}</span>
+            <span ref="birth">{{time}}</span>
             <img src="../assets/image/xia.png" alt srcset />
           </div>
           <div class="tankuang">
@@ -66,7 +66,7 @@
       </div>
       <div class="tel">
         <span class="write">请输入手机号码</span>
-        <input type="number" />
+        <input type="number" v-model="phone" ref="userphone" />
       </div>
       <div class="city">
         <span class="write">请选择地址</span>
@@ -83,14 +83,13 @@
             :area-list="areaList"
             :columns-num="colNum"
             @confirm="confirmFn"
-           
             @cancel="cancelFn"
           />
         </van-popup>
       </div>
       <div class="moreIfor">
         <span class="write">详细地址</span>
-        <input type="text" />
+        <input type="text" v-model="address" ref="useraddress" />
       </div>
       <button class="next" @click="nextTwo">下一步</button>
     </div>
@@ -98,23 +97,29 @@
 </template>
 
 <script>
+import { Toast } from "mint-ui";
 import areaFile from "../assets/js/area.js";
+import { log } from "util";
 export default {
   name: "testone",
   components: {},
   data() {
     return {
-      time: "1995 / 12",
+      time: "",
       starttime: new Date("1900-01"),
       radio: "1",
       dateVal: new Date(), // 默认是当前日期
-      address:" /  / ",
-      SelectProvinceName:"省",
-      SelectCityName:"市",
-      SelectCountyName:"区",
+      address: " /  / ",
+      SelectProvinceName: "省",
+      SelectCityName: "市",
+      SelectCountyName: "区",
       show: false,
-      areaList:areaFile,
-      colNum: "3" //省市区显示列数，3-省市区，2-省市，1-省
+      areaList: areaFile,
+      colNum: "3", //省市区显示列数，3-省市区，2-省市，1-省
+      //
+      infor: "",
+      address: "",
+      phone: ""
     };
   },
   methods: {
@@ -131,23 +136,62 @@ export default {
       this.$refs.picker.open();
     },
     handleConfirm(data) {
-      console.log(this.formatDate(data));
+      // console.log(this.formatDate(data));
       var newdata = this.formatDate(data);
       this.time = newdata;
     },
     nextTwo() {
-      this.$router.push("/testtwo");
+      var arry1 = [];
+      var city = [];
+
+      if (this.infor == "") {
+        Toast("姓名不能为空");
+      } else if (this.time == "") {
+        Toast("出生年月不能为空");
+      } else if (this.phone == "") {
+        Toast("请输入正确手机号码");
+      } else if (
+        this.SelectProvinceName == "省" &&
+        this.SelectCityName == "市" &&
+        this.SelectCountyName == "区"
+      ) {
+        Toast("请选择地址");
+      } else if (this.address == "") {
+        Toast("请填写详细地址");
+      }else{
+      arry1.push(this.infor);
+      arry1.push(this.time);
+      arry1.push(this.radio);
+      arry1.push(this.phone);
+      city.push(this.SelectProvinceName);
+      city.push(this.SelectCityName);
+      city.push(this.SelectCountyName);
+      arry1.push(city);
+      arry1.push(this.address);
+      var obj1 = { one: arry1 };
+      console.log(arry1);
+      console.log(obj1);
+
+        this.$router.push({
+        path: "/testtwo",
+        query:obj1
+        
+      });
+      }
+
+     
+      
     },
     // 弹框按钮
     showPopup() {
       this.show = true;
     },
     //省市区完成按钮
-    confirmFn(val){
-        this.show = false;
-        this.SelectProvinceName = val[0].name;   // 省
-        this.SelectCityName = val[1].name;   // 市
-        this.SelectCountyName = val[2].name;  //区
+    confirmFn(val) {
+      this.show = false;
+      this.SelectProvinceName = val[0].name; // 省
+      this.SelectCityName = val[1].name; // 市
+      this.SelectCountyName = val[2].name; //区
     },
 
     //省市区取消按钮
@@ -155,7 +199,8 @@ export default {
       this.show = false;
       console.log("点击了取消按钮");
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -287,13 +332,24 @@ export default {
   background: #ac945b;
   border-color: #ac945b;
 }
-.city   /deep/ .van-picker__cancel{
+.home /deep/ .van-picker__cancel {
   color: #b2985b !important;
-   }
- .city   /deep/ .van-picker__confirm{
+}
+.home /deep/ .van-picker__confirm {
   color: #b2985b !important;
-   }
-
+}
+.home /deep/ .mint-datetime-cancel {
+  color: #b2985b !important;
+}
+.home /deep/ .mint-datetime-confirm {
+  color: #b2985b !important;
+}
+.home /deep/ .van-popup--bottom {
+  top: 50%;
+}
+.home /deep/ .van-picker__toolbar {
+  justify-content: space-around;
+}
 .tel {
   margin-top: 0.4rem;
   width: 5.4rem;

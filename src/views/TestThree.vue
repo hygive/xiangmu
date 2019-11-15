@@ -42,11 +42,23 @@
 <script>
 export default {
   name: "testthree",
-  components: {},
+  components: {
+
+  },
+  data(){
+    return{
+     OBJ:''
+    }
+  },
   methods:{
       nextSucess(){
           this.$router.push("/testtwo/testthree/testsucess")
       }
+  },
+  mounted(){
+    this.OBJ=this.$route.query;
+    console.log('第三页面')
+    console.log(this.OBJ)
   }
 };
 </script>

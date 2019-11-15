@@ -18,15 +18,15 @@
 
     <script>
     
-    (function (document, window) {
-        let designWidth = 750; //设计稿宽度，需根据设计稿进行调整。
-        let deviceWidth = document.documentElement.clientWidth; //设备宽度
-        document.documentElement.style.fontSize = (deviceWidth / designWidth) * 100 + 'px';
-        window.onresize = function () {
-          document.documentElement.style.fontSize = (deviceWidth / designWidth) * 100 + 'px';
-        };
-      })(document, window);
-    
+      (function (document, window) {
+          let designWidth = 750; //设计稿宽度，需根据设计稿进行调整。
+          let deviceWidth = document.documentElement.clientWidth; //设备宽度
+          document.documentElement.style.fontSize = (deviceWidth / designWidth) * 100 + 'px';
+          window.onresize = function () {
+            document.documentElement.style.fontSize = (deviceWidth / designWidth) * 100 + 'px';
+          };
+        })(document, window);
+      
     </script>
   </body>
 </html>

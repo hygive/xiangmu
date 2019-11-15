@@ -2,7 +2,7 @@
   <div class="hello">
     <p v-for="(item,index1) of options" :key="index1" class="test">
       <label class="myRadio">
-        <input type="checkbox"  :value="item" :name="name"  @change="updataInpCheck"/>
+        <input type="checkbox"  :value="item" :name="name"   @change="updataInpCheck"/>
         <span>{{item}}</span>
       </label>
     </p>
@@ -14,7 +14,7 @@ export default {
   name: "my-check",
   model:{
    prop:"options",
-    event:"updataInp"
+   event:"updataInp"
   },
   props: {
     options:{
@@ -34,8 +34,9 @@ export default {
 
   methods:{
     updataInpCheck (ev) {
-      console.log(ev.target.value)
-      this.$emit('change', ev.target.value)
+      // console.log('组件')
+      //  console.log(ev.target)
+      this.$emit('change', ev.target)
     }
   }
 };

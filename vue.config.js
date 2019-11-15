@@ -2,7 +2,8 @@
 
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? './' : './',
+    // publicPath: process.env.NODE_ENV === 'production' ? './' : './',
+    publicPath: '/',
     lintOnSave: true,
     productionSourceMap: false,
     devServer: {
@@ -13,7 +14,7 @@ module.exports = {
         proxy: {
           '/api': {
             target: 'http://10.100.18.125:96/index.php',//目标地址
-            // ws: true,//是否代理websocket
+            ws: true,//是否代理websocket
             changeOrigin: true,//是否跨域
             // pathRewrite: {
             //   '^/api': ''//url重写

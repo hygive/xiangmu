@@ -28,6 +28,7 @@ Vue.use(RadioGroup);
 Vue.use(Radio)
 Vue.use(Vant);
 
+
 new Vue({
   router,
   store,
