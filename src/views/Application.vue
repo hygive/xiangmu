@@ -12,19 +12,10 @@
         <img :src="item.tp2" alt v-else />
         <span>{{item.name}}</span>
       </div>
-
-      <!-- <div class="">
-                        <img src="../assets/image/app2-2.png" alt="">
-                        <span></span>
-                    </div>
-                     <div class="">
-                        <img src="../assets/image/app3-3.png" alt="">
-                        <span></span>
-      </div>-->
     </div>
     <div class="contaniner">
       <div v-for="(item1,index) in topListCont" :key="index" v-show="curr==index" class="one">
-        <div v-for="(item2,index1) in item1" :key="index1" class="one_cont" @click="jumpdetails"> 
+        <div v-for="(item2,index1) in item1" :key="index1" class="one_cont" @click="jumpdetails(index)">
           <div class="con-left">
             <img :src="item2.img" />
           </div>
@@ -95,11 +86,14 @@ export default {
   methods: {
     selcet(index) {
       this.curr = index;
+      // getShopList
     },
-    jumpdetails(){
-        this.$router.push("/application/commoditydetails")
+
+    jumpdetails() {
+      this.$router.push("/application/commoditydetails");
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 <style scoped>
@@ -164,8 +158,8 @@ export default {
   border-bottom: 1px solid #e9e9e9;
   display: flex;
 }
-.one_cont{
-        margin: 0 0.28rem;
+.one_cont {
+  margin: 0 0.28rem;
 }
 .con-right {
   margin-left: 0.3rem;

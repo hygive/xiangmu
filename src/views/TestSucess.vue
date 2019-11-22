@@ -4,7 +4,7 @@
     <p>您将免费领取</p>
     <div class="vip" v-for="(item,index) in list" :key="index">
       <img src="../assets/image/cart.png" alt />
-      <div class="receive">领取</div>
+      <div class="receive" @click="getCart(index)" ref="changworld">{{item.s==0?'领取':'已领取'}}</div>
       <div class="purpose">
         <span>{{item.shop}}</span>
         <span>{{item.time}}</span>
@@ -22,20 +22,29 @@
 
 
 <script>
+import { Toast } from "mint-ui";
 export default {
   name: "testsucess",
   components: {},
   data(){
       return{
          list:[
-             {"shop":"用于预约上门服务","time":"有效期：2019/10.18 - 2019/12.30","monery":"100","type":"代金卷"},
-             {"shop":"用于预约上门服务","time":"有效期：2019/10.18 - 2020/12.30","monery":"200","type":"代金卷"}
+             {"shop":"用于预约上门服务","time":"有效期：2019/10.18 - 2019/12.30","monery":"100","type":"代金卷",'s':0},
+             {"shop":"用于预约上门服务","time":"有效期：2019/10.18 - 2020/12.30","monery":"200","type":"代金卷",'s':1}
          ]
       }
   },
   methods:{
       nextOrder(){
           this.$router.push("/testtwo/testthree/testsucess/appointment")
+      },
+      getCart(index){
+        // if(item.s==0){
+        //    
+        // }
+         Toast("领取成功");
+          console.log(index)
+        console.log(this.$refs.changworld[index].value)
       }
   }
 };
@@ -52,6 +61,7 @@ export default {
 .home h2 {
   font-size: 0.48rem;
   color: #333;
+  margin-left: 0.4rem;
 }
 .home p {
   font-size: 0.26rem;

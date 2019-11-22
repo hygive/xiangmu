@@ -32,6 +32,21 @@
         <span>1999.00</span>
       </div>
     </div>
+    <div class="detailPro">
+      <div
+        v-for="(item,index) in tab"
+        :key="index"
+        @click="checkTab(index)"
+        :class="curr==index?'activeTab':''"
+      >{{item}}</div>
+    </div>
+   
+      <div v-show="curr==index" v-for="(item,index) in proDetail" :key="index" class="detailPros">
+        <div v-for="(item1,i) in item" :key="i" class="details">
+          <img :src="item1.imgurl" />
+        </div>
+     
+    </div>
     <div class="foot">
       <ul>
         <li>
@@ -66,6 +81,13 @@ export default {
         require("../assets/image/swiper.png"),
         require("../assets/image/swiper.png"),
         require("../assets/image/swiper.png")
+      ],
+      tab: ["详情", "规格", "如何购买"],
+      curr: 0,
+      proDetail: [
+        [{ imgurl: require("../assets/image/mian.png") }],
+        [{ imgurl: require("../assets/image/swiper.png") }],
+        [{ imgurl: require("../assets/image/mian.png") }]
       ]
     };
   },
@@ -73,6 +95,10 @@ export default {
     onChange(index) {
       this.num = index + 1;
       this.total = this.$refs.shu.length;
+    },
+    checkTab(index) {
+      this.curr = index;
+      console.log(index);
     }
   },
   beforeCreate() {},
@@ -171,6 +197,36 @@ export default {
 .price1 span:nth-child(2) {
   font-size: 0.36rem !important;
   font-weight: bold;
+}
+.detailPro {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.2rem 0.26rem;
+  font-size: 0.3rem;
+  border-bottom: 1px solid #f0f0f0;
+
+  color: #1c1c1c;
+}
+.detailPro div {
+  padding: 0.2rem;
+}
+.activeTab {
+  border-bottom: 1px solid #1f1f1e;
+}
+.detailPros {
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 0.2rem
+}
+.details {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 0.3rem;
+}
+.details img {
+   width: 100%;
+   box-sizing: border-box
+  
 }
 /* 底部 */
 .foot {

@@ -2,7 +2,7 @@
   <div class="hello">
     <p v-for="(item,index) of options" :key="index" class="test">
       <label class="myRadio">
-        <input type="radio"  :value="item" :name="name"  @change="updataInp"/>
+        <input :typename="typename" :id="id" type="radio" :checked="checkvalue.indexOf(item)>-1"  :value="item" :name="name"  @change="updataInp"/>
         <span>{{item}}</span>
       </label>
     </p>
@@ -25,6 +25,19 @@ export default {
       type:[Number,String],
        required:true
     }
+    ,
+    checkvalue:{
+
+       required:true
+    },
+    id:{
+      type:[Number,String],
+       required:true
+    },
+    typename:{
+      type:[Number,String],
+       required:true
+    },
   },
   data() {
     return {

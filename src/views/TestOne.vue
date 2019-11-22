@@ -97,6 +97,10 @@
 </template>
 
 <script>
+
+import { publicMethod,yeardate } from "../assets/js/timechou.js";
+
+import store from "../store/index.js";
 import { Toast } from "mint-ui";
 import areaFile from "../assets/js/area.js";
 import { log } from "util";
@@ -131,7 +135,14 @@ export default {
       d = d < 10 ? "0" + d : d;
       return y + " / " + m;
     },
-
+    // formatDate1(date) {
+    //   const y = date.getFullYear();
+    //   let m = date.getMonth() + 1;
+    //   m = m < 10 ? "0" + m : m;
+    //   let d = date.getDate();
+    //   d = d < 10 ? "0" + d : d;
+    //   return y + " - " + m;
+    // },
     openPicker() {
       this.$refs.picker.open();
     },
@@ -140,6 +151,7 @@ export default {
       var newdata = this.formatDate(data);
       this.time = newdata;
     },
+
     nextTwo() {
       var arry1 = [];
       var city = [];
@@ -158,29 +170,26 @@ export default {
         Toast("请选择地址");
       } else if (this.address == "") {
         Toast("请填写详细地址");
-      }else{
-      arry1.push(this.infor);
-      arry1.push(this.time);
-      arry1.push(this.radio);
-      arry1.push(this.phone);
-      city.push(this.SelectProvinceName);
-      city.push(this.SelectCityName);
-      city.push(this.SelectCountyName);
-      arry1.push(city);
-      arry1.push(this.address);
-      var obj1 = { one: arry1 };
-      console.log(arry1);
-      console.log(obj1);
-
+      } else {
+        arry1.push(this.infor);                       
+                      //  arry1.push(publicMethod.getTimestamp(this.time))
+        arry1.push(this.time);
+        arry1.push(this.radio);
+        arry1.push(this.phone);
+        city.push(this.SelectProvinceName);
+        city.push(this.SelectCityName);
+        city.push(this.SelectCountyName);
+        arry1.push(city);
+        arry1.push(this.address);
+        var obj1 = { one: arry1 };
+        console.log(arry1);
+        console.log(obj1);
+        localStorage.setItem("OneObj1", JSON.stringify(obj1));
         this.$router.push({
-        path: "/testtwo",
-        query:obj1
-        
-      });
+          path: "/testtwo"
+          // query:obj1
+        });
       }
-
-     
-      
     },
     // 弹框按钮
     showPopup() {
@@ -200,7 +209,20 @@ export default {
       console.log("点击了取消按钮");
     }
   },
-  mounted() {}
+  mounted() {
+    if (localStorage.length > 0) {
+      var localObj = JSON.parse(localStorage.getItem("OneObj1"));
+      console.log(localObj.one);
+      this.infor = localObj.one[0];
+      this.time =localObj.one[1]
+      this.radio = localObj.one[2];
+      this.phone = localObj.one[3];
+      this.SelectProvinceName = localObj.one[4][0];
+      this.SelectCityName = localObj.one[4][1];
+      this.SelectCountyName = localObj.one[4][2];
+      this.address = localObj.one[5];
+    }
+  }
 };
 </script>
 

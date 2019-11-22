@@ -33,12 +33,45 @@
     <div class="container">
       <h2>填写问卷</h2>
       <div>
-        <div class="first" v-for="(item,index) of listDataCheck" :key="index">
-          <div class="title">{{item.title}}</div>
-          <myCheck :options="item.options" :name="item.name" @change="updataInpCheck"></myCheck>
+        <div class="first" v-for="(item,index) of datas" :key="index">
+          <div v-if="item.type == 1" class="title">{{item.content}}</div>
+          <myCheck
+            v-if="item.type == 1"
+            :options="item.options"
+            :checkvalue="item.result"
+            :id="item.body_id"
+            :typename="2"
+            @change="updataInpCheck"
+          ></myCheck>
+          <div v-if="item.type == 2" class="title">{{item.content}}</div>
+          <myRadio
+            :id="item.body_id"
+            :typename="2"
+            v-if="item.type == 2"
+            :checkvalue="item.result"
+            :options="item.options"
+            :name="item.content"
+            @change="updataVal"
+          ></myRadio>
+
+          <div v-if="item.type == 3" class="title">{{item.content}}</div>
+          <div v-if="item.type == 3" class="check1">
+            <textarea
+              :placeholder="item.options"
+              @input="textProposal2(item.body_id,$event,item.type)"
+            >{{item.result}}</textarea>
+          </div>
+
+          <div v-if="item.type == 4" class="title">{{item.content}}</div>
+          <div v-if="item.type == 4" class="check1">
+            <textarea
+              :placeholder="item.options"
+              @input="textProposal2(item.body_id,$event,item.type)"
+            >{{item.result}}</textarea>
+          </div>
         </div>
       </div>
-      <div class="first" v-for="(item,index) in listData" :key="index">
+      <!-- <div class="first" v-for="(item,index) in listData" :key="index">
         <div class="title">{{item.title}}</div>
         <myRadio :options="item.options" :name="item.name" @change="updataVal"></myRadio>
       </div> 
@@ -57,13 +90,11 @@
             <textarea :placeholder="item.options" @input="textProposal2(item.name,$event)" ></textarea>
           </div>
         </div>
-      </div>
+      </div>-->
       <button class="next" @click="nextThree">下一步</button>
     </div>
   </div>
 </template>
-
-
 <script>
 import { Toast } from "mint-ui";
 import myCheck from "../components/myCheck.vue";
@@ -78,7 +109,8 @@ export default {
     return {
       // obj2:{},
       datas: [],
-      proposalVaule:"",
+      value: {}, //选项value
+      proposalVaule: "",
       listDataCheck: [
         {
           title: "您觉得皮肤存在哪些问题？（多选）",
@@ -117,163 +149,144 @@ export default {
     };
   },
   methods: {
-    textProposal2(e,b){
-      var b=b.path[0].value
-       this.datas.map((item, i) => {
-         if(item[0] == e) {
-            item[1]=b
-           console.log(item)
-          // item[1].push(this.proposalVaule)
-         }
-       })
+    textProposal2(e, b, typename) {
+      this.value[e] = {
+        value: b.path[0].value,
+        type: typename
+      };
+      // var b = b.path[0].value;
+      // this.datas.map((item, i) => {
+      //   if (item[0] == e) {
+      //     item[1] = b;
+      //     console.log(item);
+      //     // item[1].push(this.proposalVaule)
+      //   }
+      // });
     },
     nextThree() {
-      // console.log({name}=this.$route.query)
-      var obj1=this.$route.query
-      var obj2={two:this.datas}
-    // console.log(obj2)
-    var twoObj=Object.assign(obj1,obj2)
-    console.log(twoObj)
-      // console.log(this.datas)
-      this.datas.map((item,i)=>{
-        if(item[1]==""){
-          Toast("答案不能位空"); 
-        }else{
-             
-              
-             this.$router.push({
-                path:"/testtwo/testthree",
-                query:twoObj
-                
-             })
+      console.log(this.value);
+      var rst = false;
+      for (var i = 0; i < this.datas.length; i++) {
+        if (!this.value[this.datas[i].body_id]) {
+          rst = true;
         }
-      })
+      }
+      if (rst) {
+        Toast("答案不能位空");
+        return;
+      }
+      console.log(this.value);
+      localStorage.setItem("OneObj2", JSON.stringify(this.value));
+      this.$router.push({
+        path: "/testtwo/testthree"
+        // query:twoObj
+      });
       // this.$router.push("/testtwo/testthree");
     },
-    textProposal(option,){
-       this.datas.map((item, i) => {
-         if(item[0] == option.name) {
-           console.log(this.proposalVaule)
-           item[1].push(this.proposalVaule)
-         }
-         console.log(item[1])
-       })
-    // console.log(this.proposalVaule)  
-    },   
-     
-    //单选
-    updataVal(option) {
+    textProposal(option) {
       this.datas.map((item, i) => {
         if (item[0] == option.name) {
-          //  if(item[1].length ==0){
-          //     item[1].push(option.value)
-          //  }else if(item[1].length>0){
-          //    item[1]=[];
-          //    console.log(item[1])
-          //    item[1].push(option.value)
-          //   
-          //  }
-           item[1]=[option.value]
-             console.log(item[1]);
-             console.log(this.datas)
+          console.log(this.proposalVaule);
+          item[1].push(this.proposalVaule);
         }
+        console.log(item[1]);
       });
-    // console.log(option)
+      // console.log(this.proposalVaule)
+    },
+
+    //单选
+    updataVal(option) {
+      this.value[option.id] = {
+        value: option.value,
+        type: option.getAttribute("typename")
+      };
+      console.log(this.value);
     },
     //多选
     updataInpCheck(option) {
-      this.datas.map((item, i) => {
-        // console.log('遍历数组');
-        if (item[0] == option.name) {
-          // console.log('找到数据');
-          if (item[1].length > 0) {
-            var boot = false;
-            item[1].map((items, s) => {
-              if (items == option.value) {
-                boot = true;
-                // console.log(s)
-                // console.log(item[1])
-                item[1].splice(s, 1);
-                console.log("删除");
-                console.log(item[1]);
-              }
-            });
-            if (boot == false) {
-              item[1].push(option.value);
-              console.log("添加2");
-              console.log(item[1]);
-            }
-          } else {
-            console.log("添加1");
-            item[1].push(option.value);
-            console.log(item[1]);
+      var value = this.value[option.id] ? this.value[option.id]["value"] : [];
+      if (value.length == 0) {
+        value.push(option.value);
+      } else {
+        var sele = false;
+        var index = 0;
+        for (var i = 0; i < value.length; i++) {
+          if (value[i] == option.value) {
+            sele = true;
+            index = i;
           }
         }
-      });
-      console.log(option.name, option.value);
-      console.log(this.datas);
+        if (sele) {
+          value.splice(index, 1);
+        } else {
+          value.push(option.value);
+        }
+      }
+      this.value[option.id] = {
+        value: value,
+        type: option.getAttribute("typename")
+      };
+      console.log(this.value);
+      // console.log(this.value);
+      // this.datas.map((item, i) => {
+      //   // console.log('遍历数组');
+      //   if (item[0] == option.name) {
+      //     // console.log('找到数据');
+      //     if (item[1].length > 0) {
+      //       var boot = false;
+      //       item[1].map((items, s) => {
+      //         if (items == option.value) {
+      //           boot = true;
+      //           // console.log(s)
+      //           // console.log(item[1])
+      //           item[1].splice(s, 1);
+      //           console.log("删除");
+      //           console.log(item[1]);
+      //         }
+      //       });
+      //       if (boot == false) {
+      //         item[1].push(option.value);
+      //         console.log("添加2");
+      //         console.log(item[1]);
+      //       }
+      //     } else {
+      //       console.log("添加1");
+      //       item[1].push(option.value);
+      //       console.log(item[1]);
+      //     }
+      //   }
+      // });
+      // console.log(option.name, option.value);
+      // console.log(this.datas);
     },
 
     getInforQuestions() {
       this.$axios.post("/api/question/seek").then(res => {
         // console.log(res);
         let data = res.data.data;
+        this.datas = data;
         console.log(data);
         var select = [];
         var selectCheck = [];
         var select3 = [];
         var proposal = [];
-        data.map((item, i, arry) => {
-          var abc = [data[i].body_id, []];
-          this.datas.push(abc);
 
-          if (data[i].type === "1") {
-            return select.push(data[i]);
-          } else if (data[i].type === "2") {
-            return selectCheck.push(data[i]);
-          } else if (data[i].type === "3") {
-            return select3.push(data[i]);
-          } else {
-            return proposal.push(data[i]);
-          }
+        this.datas.map((v, i) => {
+          this.datas[i]["result"] = "";
         });
+        //从缓存里拿数据
+        var localObj = JSON.parse(localStorage.getItem("OneObj2"));
+        if (localObj) {
+          this.datas.map((v, i) => {
+            this.datas[i]["result"] = localObj[v.body_id].value;
+          });
+          this.value = localObj;
+        }
         console.log(this.datas);
-        // console.log(selectCheck);
-        // console.log(select3);
-        // console.log(proposal);
-        //多选
-        this.listDataCheck = selectCheck;
-        this.listDataCheck.map((item, i) => {
-          // console.log(i);
-          this.listDataCheck[i].title = selectCheck[i].content;
-          this.listDataCheck[i].name = selectCheck[i].body_id;
-        });
-        //单选
-        this.listData = select;
-        this.listData.map((item, i) => {
-          // console.log(i);
-          this.listData[i].title = select[i].content;
-          this.listData[i].name = select[i].body_id;
-        });
-
-        //提议
-        this.proposal = proposal;
-        this.listData.map((item, i) => {
-          // console.log(i);
-          this.proposal[i].content = proposal[i].content;
-          this.proposal[i].name = proposal[i].body_id;
-        });
-        //问答题
-        this.questions = select3;
-        this.listData.map((item, i) => {
-          // console.log(i);
-          this.questions[i].content = select3[i].content;
-          this.questions[i].name = select3[i].body_id;
-        });
+        console.log(this.datas);
       });
     }
   },
-
   created() {
     this.getInforQuestions();
   },
