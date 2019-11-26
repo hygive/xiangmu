@@ -8,9 +8,9 @@
         </div>
       </li>
       <li>
-        <div class="mark"></div>
-        <div class="mark"></div>
-        <div class="mark"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
       </li>
       <li>
         <div class="one">
@@ -176,7 +176,16 @@ export default {
         return;
       }
       console.log(this.value);
+
       localStorage.setItem("OneObj2", JSON.stringify(this.value));
+       var localObj = JSON.parse(localStorage.getItem("OneObj2"));
+       console.log(localObj)
+      this.$axios.post("/api/user/bear",{
+        localObj:localObj
+      }).then(res => {
+          console.log(res)
+      })
+    
       this.$router.push({
         path: "/testtwo/testthree"
         // query:twoObj
@@ -227,45 +236,13 @@ export default {
         type: option.getAttribute("typename")
       };
       console.log(this.value);
-      // console.log(this.value);
-      // this.datas.map((item, i) => {
-      //   // console.log('遍历数组');
-      //   if (item[0] == option.name) {
-      //     // console.log('找到数据');
-      //     if (item[1].length > 0) {
-      //       var boot = false;
-      //       item[1].map((items, s) => {
-      //         if (items == option.value) {
-      //           boot = true;
-      //           // console.log(s)
-      //           // console.log(item[1])
-      //           item[1].splice(s, 1);
-      //           console.log("删除");
-      //           console.log(item[1]);
-      //         }
-      //       });
-      //       if (boot == false) {
-      //         item[1].push(option.value);
-      //         console.log("添加2");
-      //         console.log(item[1]);
-      //       }
-      //     } else {
-      //       console.log("添加1");
-      //       item[1].push(option.value);
-      //       console.log(item[1]);
-      //     }
-      //   }
-      // });
-      // console.log(option.name, option.value);
-      // console.log(this.datas);
     },
 
     getInforQuestions() {
       this.$axios.post("/api/question/seek").then(res => {
-        // console.log(res);
         let data = res.data.data;
         this.datas = data;
-        console.log(data);
+        console.log(res);
         var select = [];
         var selectCheck = [];
         var select3 = [];
@@ -342,6 +319,10 @@ export default {
   float: left;
   margin-left: 0.18rem;
   margin-top: 0.18rem;
+}
+.mark_select{
+    background-color: #000;
+    opacity:1;
 }
 /* 内容部分 */
 .container {

@@ -8,9 +8,9 @@
         </div>
       </li>
       <li>
-        <div class="mark"></div>
-        <div class="mark"></div>
-        <div class="mark"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
       </li>
       <li>
         <div class="one">
@@ -97,8 +97,7 @@
 </template>
 
 <script>
-
-import { publicMethod,yeardate } from "../assets/js/timechou.js";
+import { publicMethod, yeardate } from "../assets/js/timechou.js";
 
 import store from "../store/index.js";
 import { Toast } from "mint-ui";
@@ -153,43 +152,51 @@ export default {
     },
 
     nextTwo() {
-      var arry1 = [];
-      var city = [];
-
-      if (this.infor == "") {
-        Toast("姓名不能为空");
-      } else if (this.time == "") {
-        Toast("出生年月不能为空");
-      } else if (this.phone == "") {
-        Toast("请输入正确手机号码");
-      } else if (
-        this.SelectProvinceName == "省" &&
-        this.SelectCityName == "市" &&
-        this.SelectCountyName == "区"
-      ) {
-        Toast("请选择地址");
-      } else if (this.address == "") {
-        Toast("请填写详细地址");
-      } else {
-        arry1.push(this.infor);                       
-                      //  arry1.push(publicMethod.getTimestamp(this.time))
-        arry1.push(this.time);
-        arry1.push(this.radio);
-        arry1.push(this.phone);
-        city.push(this.SelectProvinceName);
-        city.push(this.SelectCityName);
-        city.push(this.SelectCountyName);
-        arry1.push(city);
-        arry1.push(this.address);
-        var obj1 = { one: arry1 };
-        console.log(arry1);
-        console.log(obj1);
-        localStorage.setItem("OneObj1", JSON.stringify(obj1));
-        this.$router.push({
-          path: "/testtwo"
-          // query:obj1
-        });
+      var now = new Date();
+      var nowchuo = now.getTime()/1000;
+      console.log(nowchuo);
+      var a=localStorage.getItem("valid_time");
+      console.log(a>nowchuo)
+      if(a>nowchuo){
+        this.$axios.post("/api/user/info",{})
+      }else{
+        this.getTokenInfor()
       }
+      //   var arry1 = [];
+      //   var city = [];
+      //   if (this.infor == "") {
+      //     Toast("姓名不能为空");
+      //   } else if (this.time == "") {
+      //     Toast("出生年月不能为空");
+      //   } else if (this.phone == "") {
+      //     Toast("请输入正确手机号码");
+      //   } else if (
+      //     this.SelectProvinceName == "省" &&
+      //     this.SelectCityName == "市" &&
+      //     this.SelectCountyName == "区"
+      //   ) {
+      //     Toast("请选择地址");
+      //   } else if (this.address == "") {
+      //     Toast("请填写详细地址");
+      //   } else {
+      //     arry1.push(this.infor);
+      //                   //  arry1.push(publicMethod.getTimestamp(this.time))
+      //     arry1.push(this.time);
+      //     arry1.push(this.radio);
+      //     arry1.push(this.phone);
+      //     city.push(this.SelectProvinceName);
+      //     city.push(this.SelectCityName);
+      //     city.push(this.SelectCountyName);
+      //     arry1.push(city);
+      //     arry1.push(this.address);
+      //     var obj1 = { one: arry1 };
+      //     console.log(arry1);
+      //     console.log(obj1);
+      //     localStorage.setItem("OneObj1", JSON.stringify(obj1));
+      this.$router.push({
+        path: "/testtwo"
+      });
+      // }
     },
     // 弹框按钮
     showPopup() {
@@ -207,14 +214,51 @@ export default {
     cancelFn() {
       this.show = false;
       console.log("点击了取消按钮");
+    },
+
+    getTokenInfor() {
+      // var unionid=ccttp
+      this.$axios
+        .post("/api/token/get-token", {
+          unionid: "ccttp"
+        })
+        .then(res => {
+          console.log(res.data.data);
+          var data = res.data.data;
+          var furetitme = data.valid_time;
+          // var now = new Date();
+          // var nowchuo=now.getTime()
+          //  console.log(now.getTime())
+          localStorage.setItem("token", JSON.stringify(data.token));
+          localStorage.setItem("valid_time", furetitme);
+          //   if(nowchuo>furetitme){
+          //       this.getTokenInfor()
+          //       localStorage.setItem('token',JSON.stringify(data.token))
+          //   }else{
+          //      localStorage.setItem('token',JSON.stringify(data.token))
+          //   }
+
+          //  console.log(JSON.parse(localStorage.getItem('token')) || '[]')
+          //  var getdata=JSON.parse(localStorage.getItem('token'))
+          //  console.log(getdata.token)
+          //  console.log(getdata.valid_time);
+        });
     }
+    // getPeopleInfor(){
+    //   var getdata=JSON.parse(localStorage.getItem('token'))
+
+    //     if(getdata.token){
+
+    //     }
+    //   this.$axios.post("/api/user/info",{}).then(()=>{})
+    // }
   },
   mounted() {
     if (localStorage.length > 0) {
       var localObj = JSON.parse(localStorage.getItem("OneObj1"));
       console.log(localObj.one);
       this.infor = localObj.one[0];
-      this.time =localObj.one[1]
+      this.time = localObj.one[1];
       this.radio = localObj.one[2];
       this.phone = localObj.one[3];
       this.SelectProvinceName = localObj.one[4][0];
@@ -222,6 +266,7 @@ export default {
       this.SelectCountyName = localObj.one[4][2];
       this.address = localObj.one[5];
     }
+    this.getTokenInfor();
   }
 };
 </script>
@@ -274,6 +319,10 @@ export default {
   margin-left: 0.18rem;
   margin-top: 0.18rem;
 }
+/* .mark_select{
+    background-color: #000;
+    opacity:1;
+} */
 /* 内容部分 */
 .container {
   padding: 0 0.3rem;

@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // import 'lib-flexible'
+import './assets/css/border.css'
+import './assets/css/public.css'
 import 'mint-ui/lib/style.css'
 import 'vant/lib/index.css';
 import Vant from 'vant';

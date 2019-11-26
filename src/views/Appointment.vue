@@ -33,11 +33,11 @@
           <li
             v-for="(items,idex) in listHour"
             :key="idex"
-           @click="selectTime(idex,items.timeName,zore.time>items.time)"
-            :class="{ys:idex===num,dis:((zore.time>items.time)&&(zore.date>=riqi))}"
+           @click="selectTime(idex,items.timeName)"
+            :class="{ys:hourData[0]===items.timeName,dis:zore.time>items.time,ndis:zore.date!=riqi,ndis1:monthfen!=usermonth}"
            
           >{{items.timeName}}</li>
-          
+          <!-- ndis:monthfen!=usermonth -->
         </ul>
       </div>
       <div class="concat">
@@ -111,17 +111,6 @@ export default {
       number: "",
       num: "",
       listData: [],
-      // listHour: [
-      //   "9:00-10:00",
-      //   "11:00-12:00",
-      //   "13:00-14:00",
-      //   "14:00-15:00",
-      //   "15:00-16:00",
-      //   "16:00-17:00",
-      //   "17:00-18:00",
-      //   "18:00-19:00",
-      //   "19:00-20:00"
-      // ],
       listHour: [
         {
           timeName: "9:00-10:00",
@@ -178,15 +167,21 @@ export default {
       tel: "", //初始化电话号码
       address: "", //初始化地址
       zore:0,
-      riqi:""
+      riqi:"",//存储点击日期的几号
+      monthfen:"",//存储当前日期的月份
+      usermonth:""
+      // selectnum:""//选出点击
     };
   },
   methods: {
     selectRadio(index, week, day) {
-     
+      // this.selectTime() 
+      this.hourData.length=0
+      console.log(week)
       this.riqi=day
        console.log( this.riqi)
       this.number = index;
+      
       //顶部选中哪个就把哪个值放进数组里面
       if (this.topWeekDya == "") {
         this.topWeekDya.push(week, day);
@@ -239,6 +234,23 @@ export default {
       this[`${param}`] = !this[`${param}`];
     },
     setChooseValue(param) {
+        this.usermonth=param[1]
+      this.topWeekDya.push(param[4],param[2])
+     if (this.topWeekDya == "") {
+       this.topWeekDya.push(param[4],param[2])
+      }
+      if (!this.topWeekDya == "") {
+        this.topWeekDya.splice(0, this.topWeekDya.length);
+      this.topWeekDya.push(param[4],param[2])
+      }
+
+      if (this.timeData[0] == "") {
+        this.timeData[0].push(this.topWeekDya);
+      } else {
+        this.timeData[0] = this.topWeekDya;
+      }
+      console.log(this.hourData)
+      this.riqi=param[2]
       console.log(param); //点击选中京东日历上时间
       var weekday = [];
       weekday["星期日"] = 0;
@@ -258,6 +270,7 @@ export default {
         this.topWeekDya.splice(0, this.topWeekDya.length);
         this.topWeekDya.push(param[4], param[2]);
       }
+
       console.log(this.topWeekDya);
       (this.number = 0),
         (this.listData = [
@@ -273,18 +286,19 @@ export default {
     showCalendar(param) {
       this[`${param}`] = !this[`${param}`];
     },
+
     //时间段选择
-    selectTime(idex, hour,rst) {
+    selectTime(idex, hour) {
       console.log(this.topWeekDya[1])//取出日期22
       console.log(this.timeData[0])
+      console.log(idex,"选择时间的index")
     if(this.timeData[0] == undefined){
-       Toast("请先选择日期");
-    }else{
-       if(this.riqi<=this.zore.date){
-
-      
-      if(rst){
-        return 
+         Toast("请先选择日期") 
+    }else {
+      if(this.monthfen == this.usermonth){
+          if((this.riqi<=this.zore.date)&&(this.zore.time>this.listHour[idex].time)){
+              return 
+           }
       }
       console.log(this.getCurrentDate());
       console.log(hour);
@@ -292,7 +306,7 @@ export default {
       console.log(this.num);
       console.log(hour);
       if (this.hourData == "") {
-        this.hourData.push(hour);
+        this.hourData.push(hour);   
       }
       if (!this.hourData == "") {
         this.hourData.splice(0, this.hourData.length);
@@ -302,9 +316,10 @@ export default {
         this.timeData[1].push(this.hourData);
       } else {
         this.timeData[1] = this.hourData;
-      }
+      
       console.log(this.timeData);
-      } }
+      }
+    }
     },
     // 弹框按钮
     showPopup() {
@@ -333,7 +348,7 @@ export default {
     getCurrentDate(format) {
       var now = new Date();
       // var year = now.getFullYear(); //得到年份
-      // var month = now.getMonth();//得到月份
+      var month = now.getMonth()+1;//得到月份
       var date = now.getDate();//得到日期
       
       var hour = now.getHours(); //得到小时
@@ -343,9 +358,11 @@ export default {
       if (sec < 10) sec = "0" + sec;
       var time = "";
       var data=""
-      data=  date
-      time = hour 
-      return {time,date};
+      var month1=""
+      data =  date
+      time = hour
+      month1=month 
+      return {time,date,month1};
       
     },
 
@@ -353,7 +370,7 @@ export default {
     nowAppointment() {
       if (this.number == "" && this.number !== 0) {
         Toast("请选择日期");
-      } else if (this.num == "" && this.num !== 0) {
+      } else if (this.num == "" && this.num !== 0 && ((this.zore.time>this.listHour.time) &&(this.zore.date>this.riqi) ) ) {
         Toast("请选择时间段");
       } else if (this.name == "") {
         Toast("请填写姓名");
@@ -397,12 +414,13 @@ export default {
       { data: this.getWeek(4, data), day: this.getDay(4, data) },
       { data: this.getWeek(5, data), day: this.getDay(5, data) }
     ];
-    
-    
+    this.monthfen =today.getMonth()+1
+    this.usermonth = this.monthfen;
    this.zore= this.getCurrentDate()
    console.log(this.zore)
     // console.log(this.listData.data[0])
     // console.log(this.selectTime(idex,hour))
+    console.log(this.listHour[0].time)
   }
 };
 </script>
@@ -488,7 +506,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-around */
+  justify-content: space-around
 }
 
 .hour li {
@@ -503,8 +521,10 @@ export default {
   border-radius: 5px;
   font-size: 0.26rem;
   margin-bottom: 0.2rem;
+  /* 
+  
   margin-right: 0.1rem;
-  margin-left: 0.06rem;
+  margin-left: 0.06rem; */
 }
 .ys {
   color: #85754e !important;
@@ -634,13 +654,17 @@ export default {
 .padd-bottom {
   margin-bottom: 1rem;
 }
-.dis{
-  background: #e8e8e8 !important
+.hour .dis{
+  background: #e8e8e8 
 }
 .hour li{
   display: block
 }
-.ndis{
-  background: #f0f0f0;
+.hour .ndis{
+  background: #FFF  ;
 }
+.hour .ndis1{
+  background: #FFF  ;
+}
+
 </style>

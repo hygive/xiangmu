@@ -8,9 +8,9 @@
         </div>
       </li>
       <li>
-        <div class="mark"></div>
-        <div class="mark"></div>
-        <div class="mark"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
       </li>
       <li>
         <div class="one">
@@ -19,9 +19,9 @@
         </div>
       </li>
       <li>
-        <div class="mark"></div>
-        <div class="mark"></div>
-        <div class="mark"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
+        <div class="mark mark_select"></div>
       </li>
       <li>
         <div class="one">
@@ -110,6 +110,10 @@ export default {
   margin-left: 0.18rem;
   margin-top: 0.18rem;
 }
+.mark_select{
+    background-color: #000;
+    opacity:1;
+    }
 /* 内容 */
 .container {
   padding: 0 0.3rem;

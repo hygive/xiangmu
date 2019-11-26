@@ -15,7 +15,12 @@
     </div>
     <div class="contaniner">
       <div v-for="(item1,index) in topListCont" :key="index" v-show="curr==index" class="one">
-        <div v-for="(item2,index1) in item1" :key="index1" class="one_cont" @click="jumpdetails(index)">
+        <div
+          v-for="(item2,index1) in item1"
+          :key="index1"
+          class="one_cont"
+          @click="jumpdetails(index)"
+        >
           <div class="con-left">
             <img :src="item2.img" />
           </div>
@@ -93,7 +98,8 @@ export default {
       this.$router.push("/application/commoditydetails");
     }
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 <style scoped>
